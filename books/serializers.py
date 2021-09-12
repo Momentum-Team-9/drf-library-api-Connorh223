@@ -4,14 +4,15 @@ from books.models import Book
 
 
 class BookSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Book
-        fields = ('title', 'author', 'genre', 'description', 'review',)
+        fields = ('title', 'author', 'genre', 'description', 'review', 'owner',)
 
 
 class UserSerializer(serializers.ModelSerializer):
-    snippets = serializers.PrimaryKeyRelatedField(
+    books = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Book.objects.all())
 
     class Meta:
